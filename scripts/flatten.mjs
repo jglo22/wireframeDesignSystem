@@ -81,12 +81,9 @@ if (brand) {
       else out.type.groups.push(g);
     }
   }
-  out.meta = {
-    builtFrom: `${basePkg.name}@${basePkg.version}`,
-    brand: brand.name,
-    detached: detach,
-    builtAt: new Date().toISOString(),
-  };
+  out.meta = detach
+    ? { brand: brand.name, detached: true, builtAt: new Date().toISOString() }
+    : { builtFrom: `${basePkg.name}@${basePkg.version}`, brand: brand.name, detached: false, builtAt: new Date().toISOString() };
 } else {
   out.meta = { builtFrom: `${basePkg.name}@${basePkg.version}`, builtAt: new Date().toISOString() };
 }
