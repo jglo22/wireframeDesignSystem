@@ -6,6 +6,10 @@ Versions follow major.minor.patch:
 - **minor** (1.1.0): additions, such as a new token or component. Safe to take.
 - **major** (2.0.0): renames or removals. A brand may need changes before taking it.
 
+## 1.3.0 (2026-10-29)
+
+- New token `weight-light` (300), for large display text only, never below `font-xl`.
+
 ## 1.2.1 (2026-10-29)
 
 - Handover exports no longer record which wireframe version they came from, and the `background` note no longer mentions the wireframe.

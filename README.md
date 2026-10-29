@@ -36,7 +36,7 @@ Jim's base design system: complete, unbranded defaults that every brand builds o
 - `font-display` is Atkinson Hyperlegible Next, for headings and large moments. `font-body` is Inter, for body and all UI text. Both are stored in this system as variable font files (Latin, OFL licence), so they load without Google Fonts.
 - Sizes derive from two tokens: `type-base` (18px) and `type-ratio` (1.125, Major Second). Each step is base × ratio^n, rounded to one decimal place. Changing either token recalculates the scale.
 - Allowed ratios: Minor Second 1.067, Major Second 1.125, Minor Third 1.2, Major Third 1.25, Perfect Fourth 1.333, Augmented Fourth 1.414, Perfect Fifth 1.5, Golden Ratio 1.618.
-- Weights: `weight-regular` 400 for body, `weight-medium` 500 for labels and buttons, `weight-semibold` 600 for headings, `weight-bold` 700 sparingly, `weight-extrabold` 800 for page titles in the display face only.
+- Weights: `weight-light` 300 for large display text only (never below `font-xl`), `weight-regular` 400 for body, `weight-medium` 500 for labels and buttons, `weight-semibold` 600 for headings, `weight-bold` 700 sparingly, `weight-extrabold` 800 for page titles in the display face only.
 - Line heights: `leading-normal` 1.5 for body (font-m and below), `leading-snug` 1.35 for font-l and font-xl, `leading-tight` 1.2 for font-2xl and up.
 
 ## Spacing, radius, borders, shadows
