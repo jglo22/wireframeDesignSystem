@@ -1,0 +1,147 @@
+#!/usr/bin/env node
+// Flatten the wireframe (this repo) with an optional brand layer into one complete design system.
+//
+//   node scripts/flatten.mjs                              -> dist/ for the wireframe on its own
+//   node scripts/flatten.mjs --brand brand.json --out dist -> wireframe + brand, two colour modes
+//   ... --detach                                          -> brand only, one colour mode, no link back
+//
+// Output folder: tokens.json (complete, every token), tokens.css, fonts/, components/.
+
+import { readFileSync, writeFileSync, mkdirSync, cpSync, existsSync } from "node:fs";
+import { dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const here = dirname(fileURLToPath(import.meta.url));
+const baseDir = resolve(here, "..");
+const args = process.argv.slice(2);
+const opt = (name) => {
+  const i = args.indexOf(name);
+  return i === -1 ? undefined : args[i + 1];
+};
+const brandPath = opt("--brand");
+const outDir = resolve(opt("--out") ?? "dist");
+const detach = args.includes("--detach");
+
+const base = JSON.parse(readFileSync(join(baseDir, "tokens.json"), "utf8"));
+const basePkg = JSON.parse(readFileSync(join(baseDir, "package.json"), "utf8"));
+const brand = brandPath ? JSON.parse(readFileSync(resolve(brandPath), "utf8")) : null;
+
+// ---- merge -----------------------------------------------------------------
+const byName = (list) => new Map((list ?? []).map((t) => [t.name, t]));
+
+function mergeList(baseList, brandList) {
+  const over = byName(brandList);
+  const merged = baseList.map((t) => (over.has(t.name) ? { ...t, ...over.get(t.name) } : t));
+  for (const t of brandList ?? []) if (!baseList.some((b) => b.name === t.name)) merged.push(t);
+  return merged;
+}
+
+const out = structuredClone(base);
+out.version = 1;
+
+if (brand) {
+  out.name = brand.name ?? out.name;
+  const overrides = byName(brand.color?.tokens);
+  if (detach) {
+    out.color.themes = [{ id: "branded", name: "Branded mode" }];
+    out.color.tokens = base.color.tokens.map((t) =>
+      overrides.has(t.name) ? { ...t, value: overrides.get(t.name).value } : t,
+    );
+  } else {
+    out.color.themes = [
+      { id: "branded", name: "Branded mode" },
+      { id: "wireframe", name: "Wireframe mode" },
+    ];
+    out.color.tokens = base.color.tokens.map((t) =>
+      overrides.has(t.name) ? { ...t, value: { branded: overrides.get(t.name).value, wireframe: t.value } } : t,
+    );
+  }
+  for (const t of brand.color?.tokens ?? [])
+    if (!base.color.tokens.some((b) => b.name === t.name)) out.color.tokens.push(t);
+
+  for (const [key, fam] of Object.entries(brand)) {
+    if (["name", "extends", "note", "color", "type"].includes(key)) continue;
+    if (fam && Array.isArray(fam.tokens)) {
+      out[key] = { ...(out[key] ?? {}), tokens: mergeList(out[key]?.tokens ?? [], fam.tokens) };
+    }
+  }
+  if (brand.type) {
+    if (brand.type.families) out.type.families = { ...out.type.families, ...brand.type.families };
+    if (brand.type.fonts) out.type.fonts = brand.type.fonts;
+    for (const g of brand.type.groups ?? []) {
+      const target = out.type.groups.find((x) => x.name === g.name);
+      if (target) target.styles = mergeList(target.styles, g.styles);
+      else out.type.groups.push(g);
+    }
+  }
+  out.meta = {
+    builtFrom: `${basePkg.name}@${basePkg.version}`,
+    brand: brand.name,
+    detached: detach,
+    builtAt: new Date().toISOString(),
+  };
+} else {
+  out.meta = { builtFrom: `${basePkg.name}@${basePkg.version}`, builtAt: new Date().toISOString() };
+}
+
+// ---- css -------------------------------------------------------------------
+const cssVal = (v) => (typeof v === "string" && /^\{.+\}$/.test(v) ? `var(--${v.slice(1, -1)})` : v);
+const themes = out.color.themes.map((t) => t.id);
+const valueFor = (tok, theme) =>
+  typeof tok.value === "string" ? tok.value : tok.value[theme] ?? tok.value[themes[0]];
+
+const lines = [`/* ${out.name}: generated from tokens.json. Do not edit by hand. */`, ""];
+for (const f of out.type.fonts ?? []) {
+  lines.push(
+    "@font-face {",
+    `  font-family: "${f.family}";`,
+    `  src: url("${f.file}") format("woff2");`,
+    `  font-weight: ${f.weight ?? "400"};`,
+    `  font-style: ${f.style ?? "normal"};`,
+    "  font-display: swap;",
+    "}",
+  );
+}
+themes.forEach((theme, i) => {
+  const sel = i === 0 ? `:root, [data-theme="${theme}"]` : `[data-theme="${theme}"]`;
+  lines.push("", `${sel} {`);
+  for (const tok of out.color.tokens) {
+    if (i > 0 && typeof tok.value === "string") continue;
+    lines.push(`  --${tok.name}: ${cssVal(valueFor(tok, theme))};`);
+  }
+  if (i === 0) for (const tok of out.shadow?.tokens ?? []) lines.push(`  --${tok.name}: ${tok.value};`);
+  lines.push("}");
+});
+lines.push("", ":root {");
+for (const [key, fam] of Object.entries(out.type.families)) lines.push(`  --font-${key}: ${fam};`);
+for (const [key, fam] of Object.entries(out)) {
+  if (["color", "type", "shadow", "meta"].includes(key) || !fam?.tokens) continue;
+  for (const tok of fam.tokens) lines.push(`  --${tok.name}: ${tok.value};`);
+}
+lines.push("}");
+for (const g of out.type.groups) {
+  for (const s of g.styles) {
+    lines.push(
+      "",
+      `.${s.name} {`,
+      `  font-family: var(--font-${s.family || g.family});`,
+      `  font-size: ${s.fontSize};`,
+      `  line-height: ${s.lineHeight};`,
+      `  font-weight: ${s.fontWeight};`,
+      "}",
+    );
+  }
+}
+
+// ---- write -----------------------------------------------------------------
+mkdirSync(outDir, { recursive: true });
+writeFileSync(join(outDir, "tokens.json"), JSON.stringify(out, null, 2) + "\n");
+writeFileSync(join(outDir, "tokens.css"), lines.join("\n") + "\n");
+for (const dir of ["fonts", "components"]) {
+  if (existsSync(join(baseDir, dir))) cpSync(join(baseDir, dir), join(outDir, dir), { recursive: true });
+}
+console.log(
+  `${out.name}: ${out.color.tokens.length} colours, ${themes.length} mode(s)` +
+    (brand ? `, from ${out.meta.builtFrom}${detach ? ", detached" : ""}` : "") +
+    ` -> ${outDir}`,
+);

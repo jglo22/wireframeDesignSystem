@@ -1,0 +1,64 @@
+/* Button. Size and family come from the font-s type style class. */
+.pds-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-s);
+  min-height: var(--touch-target-min);
+  min-width: var(--touch-target-min);
+  padding: 0 var(--space-l);
+  border: var(--border-s) solid transparent;
+  border-radius: var(--radius-m);
+  font-family: var(--font-body);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  cursor: pointer;
+  transition:
+    background-color var(--motion-fast) var(--motion-easing),
+    border-color var(--motion-fast) var(--motion-easing),
+    color var(--motion-fast) var(--motion-easing);
+}
+.pds-btn:focus-visible {
+  outline: var(--border-m) solid var(--brand-primary);
+  outline-offset: var(--space-xs);
+}
+.pds-btn:disabled {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+}
+
+.pds-btn-primary {
+  background: var(--brand-primary);
+  color: var(--brand-primary-contrast);
+}
+.pds-btn-primary:hover:not(:disabled) {
+  background: var(--brand-primary-dark);
+}
+
+.pds-btn-outline {
+  background: var(--white);
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+}
+.pds-btn-outline:hover:not(:disabled) {
+  background: var(--brand-primary-light);
+  color: var(--brand-primary-dark);
+}
+
+.pds-btn-ghost {
+  background: transparent;
+  color: var(--brand-primary);
+}
+.pds-btn-ghost:hover:not(:disabled) {
+  background: var(--brand-primary-light);
+  color: var(--brand-primary-dark);
+}
+
+/* Heading, level 1 (test). Size from the font-4xl type style class. */
+.pds-h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--weight-extrabold);
+  line-height: var(--leading-tight);
+  color: var(--grey-900);
+}

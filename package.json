@@ -1,0 +1,11 @@
+{
+  "name": "wireframe-design-system",
+  "version": "1.0.0",
+  "description": "Jim's base design system: complete wireframe defaults that every brand builds on.",
+  "private": true,
+  "type": "module",
+  "files": ["tokens.json", "components", "fonts", "scripts", "README.md", "CHANGELOG.md"],
+  "scripts": {
+    "build": "node scripts/flatten.mjs --out dist"
+  }
+}

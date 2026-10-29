@@ -1,0 +1,29 @@
+<!-- @dsCard group="Atoms" height=184 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Button — preview</title>
+<style>
+  body { margin: 0; padding: var(--space-l); background: var(--background); font-family: var(--font-body); }
+  .grid { display: grid; grid-template-columns: auto repeat(3, max-content); gap: var(--space-m) var(--space-xl); align-items: center; }
+  .label { color: var(--grey-600); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var B = window.PersonalDS.Button, h = React.createElement;
+  function label(t) { return h('span', { className: 'label font-xs' }, t); }
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    h('div', { className: 'grid' },
+      h('span'), label('primary'), label('outline'), label('ghost'),
+      label('Default'),
+      h(B, { variant: 'primary' }, 'Save recipe'),
+      h(B, { variant: 'outline' }, 'Add note'),
+      h(B, { variant: 'ghost' }, 'Edit'),
+      label('Disabled'),
+      h(B, { variant: 'primary', disabled: true }, 'Save recipe'),
+      h(B, { variant: 'outline', disabled: true }, 'Add note'),
+      h(B, { variant: 'ghost', disabled: true }, 'Edit')));
+</script>
+</body>
+</html>

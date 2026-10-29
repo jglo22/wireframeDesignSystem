@@ -1,0 +1,22 @@
+<!-- @dsCard group="Atoms" height=200 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Headings — preview</title>
+<style>
+  body { margin: 0; padding: var(--space-xl); background: var(--background); }
+  .body { margin: var(--space-m) 0 0; color: var(--grey-900); max-width: var(--reading-max); }
+  .spec { margin: var(--space-l) 0 0; color: var(--grey-600); font-family: var(--font-body); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var H = window.PersonalDS.Headings, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    h(React.Fragment, null,
+      h(H, { level: 1 }, 'Slow-roast tomatoes with thyme'),
+      h('p', { className: 'body font-m' }, 'Halve the tomatoes, season well and roast low for two hours until they slump and concentrate.'),
+      h('p', { className: 'spec font-xs' }, 'h1 · font-4xl · font-display · weight-extrabold · leading-tight · grey-900')));
+</script>
+</body>
+</html>
