@@ -6,6 +6,13 @@ Versions follow major.minor.patch:
 - **minor** (1.1.0): additions, such as a new token or component. Safe to take.
 - **major** (2.0.0): renames or removals. A brand may need changes before taking it.
 
+## 1.4.0 (2026-10-29)
+
+- Radius now has two layers. The existing `radius-s`, `radius-m`, `radius-l` and `radius-full` are the **primitives**. New **role** tokens say what a corner is for and point at a primitive: `radius-input`, `radius-button`, `radius-card`, `radius-dialog`, `radius-chip`.
+- Components and apps should use roles. Button now uses `radius-button` (same 8px as before).
+- Brands override a role by pointing it at another primitive (`"ref"`) or, as an exception, an exact `"value"`. The export resolves roles and keeps their notes accurate.
+- Nothing renamed or removed: existing brands look the same.
+
 ## 1.3.0 (2026-10-29)
 
 - New token `weight-light` (300), for large display text only, never below `font-xl`.

@@ -20,6 +20,7 @@ Jim's base design system: complete, unbranded defaults that every brand builds o
 - **Use a token wherever one exists.** Raw values are allowed only when no token covers them. On every build: swap exact matches for the token, flag near misses (15px where the scale has 16), and list repeated new values as token candidates.
 - **Naming.** Lowercase and hyphenated. Size scales run xs / s / m / l / xl, and `m` is always the default.
 - **Out of scope for now.** Dark mode and a semantic colour layer. Do not invent either.
+- **Roles before primitives.** Where a role token exists (for example `radius-card`), use it rather than the primitive it points at.
 - **Components nest.** Small components (Atoms) build bigger ones (Molecules, then Blocks, then Pages). Each component README lists what it is built from. Changing a small component updates everything that contains it.
 
 ## Colour
@@ -42,7 +43,8 @@ Jim's base design system: complete, unbranded defaults that every brand builds o
 ## Spacing, radius, borders, shadows
 
 - Spacing runs 2 / 4 / 8 / 16 / 32px as `space-xs` to `space-xl`; `space-m` (8) is the default.
-- Radius: `radius-s` 4 for inputs and tags, `radius-m` 8 for buttons and cards, `radius-l` 16 for sheets, `radius-full` for pills and avatars.
+- Radius comes in two layers. **Primitives** are the scale: `radius-s` 4, `radius-m` 8, `radius-l` 16, `radius-full` (round). **Roles** say what a corner is for and point at a primitive: `radius-input` (s), `radius-button` (m), `radius-card` (m), `radius-dialog` (l), `radius-chip` (full).
+- Components and apps use roles, never primitives directly. A brand changes a corner by overriding the role: point it at another primitive, or, if no step fits and the size is deliberate, give it an exact value. If several brands need the same in-between size, add it to the primitives instead.
 - Borders: `border-s` 1px by default, `border-m` 2px for focus rings in `brand-primary` and selected states, `border-l` 4px for accent bars.
 - Shadows use `grey-900` at low opacity: `shadow-s` for buttons and inputs, `shadow-m` for cards, `shadow-l` for modals.
 

@@ -32,9 +32,16 @@ const brand = brandPath ? JSON.parse(readFileSync(resolve(brandPath), "utf8")) :
 // ---- merge -----------------------------------------------------------------
 const byName = (list) => new Map((list ?? []).map((t) => [t.name, t]));
 
-function mergeList(baseList, brandList) {
+function mergeList(baseList, brandList, label = "") {
   const over = byName(brandList);
-  const merged = baseList.map((t) => (over.has(t.name) ? { ...t, ...over.get(t.name) } : t));
+  const merged = baseList.map((t) => {
+    if (!over.has(t.name)) return t;
+    const o = over.get(t.name);
+    const m = { ...t, ...o };
+    if ("value" in o && !("ref" in o)) delete m.ref; // an exact value replaces the role's pointer
+    if (label && t.usage && !t.usage.startsWith(label)) m.usage = label + t.usage;
+    return m;
+  });
   for (const t of brandList ?? []) if (!baseList.some((b) => b.name === t.name)) merged.push(t);
   return merged;
 }
@@ -69,7 +76,7 @@ if (brand) {
   for (const [key, fam] of Object.entries(brand)) {
     if (["name", "extends", "note", "color", "type"].includes(key)) continue;
     if (fam && Array.isArray(fam.tokens)) {
-      out[key] = { ...(out[key] ?? {}), tokens: mergeList(out[key]?.tokens ?? [], fam.tokens) };
+      out[key] = { ...(out[key] ?? {}), tokens: mergeList(out[key]?.tokens ?? [], fam.tokens, detach ? "" : label) };
     }
   }
   if (brand.type) {
@@ -86,6 +93,25 @@ if (brand) {
     : { builtFrom: `${basePkg.name}@${basePkg.version}`, brand: brand.name, detached: false, builtAt: new Date().toISOString() };
 } else {
   out.meta = { builtFrom: `${basePkg.name}@${basePkg.version}`, builtAt: new Date().toISOString() };
+}
+
+// ---- roles: a token with "ref" takes its value from the primitive it points at ----
+const allTokens = new Map();
+for (const [key, fam] of Object.entries(out)) {
+  if (key === "color" || key === "type" || !fam?.tokens) continue;
+  for (const t of fam.tokens) allTokens.set(t.name, t);
+}
+const POINTS = / (Points to [\w-]+|Set to [^ ]+)\.$/;
+for (const t of allTokens.values()) {
+  const isRole = t.ref || POINTS.test(t.usage ?? "");
+  if (!isRole) continue;
+  if (t.ref) {
+    const target = allTokens.get(t.ref);
+    if (!target) throw new Error(`${t.name} points at ${t.ref}, which does not exist`);
+    t.value = target.value;
+  }
+  const base = (t.usage ?? "").replace(POINTS, "");
+  t.usage = `${base} ${t.ref ? `Points to ${t.ref}` : `Set to ${t.value}`}.`.trim();
 }
 
 // ---- css -------------------------------------------------------------------
@@ -120,7 +146,7 @@ lines.push("", ":root {");
 for (const [key, fam] of Object.entries(out.type.families)) lines.push(`  --font-${key}: ${fam};`);
 for (const [key, fam] of Object.entries(out)) {
   if (["color", "type", "shadow", "meta"].includes(key) || !fam?.tokens) continue;
-  for (const tok of fam.tokens) lines.push(`  --${tok.name}: ${tok.value};`);
+  for (const tok of fam.tokens) lines.push(`  --${tok.name}: ${tok.ref ? `var(--${tok.ref})` : tok.value};`);
 }
 lines.push("}");
 for (const g of out.type.groups) {
