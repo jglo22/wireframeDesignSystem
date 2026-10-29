@@ -73,7 +73,7 @@ if (brand) {
   for (const t of brand.color?.tokens ?? [])
     if (!base.color.tokens.some((b) => b.name === t.name)) out.color.tokens.push(t);
 
-  const LEGACY_KEYS = { radius: "radiusPrimitives", radiusRole: "radiusRoles" }; // brand files written before 1.5.0
+  const LEGACY_KEYS = { radiusPrimitives: "radius", radiusRole: "radiusRoles" }; // older group names
   for (let [key, fam] of Object.entries(brand)) {
     if (["name", "extends", "note", "color", "type"].includes(key)) continue;
     key = LEGACY_KEYS[key] ?? key;

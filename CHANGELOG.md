@@ -6,6 +6,10 @@ Versions follow major.minor.patch:
 - **minor** (1.1.0): additions, such as a new token or component. Safe to take.
 - **major** (2.0.0): renames or removals. A brand may need changes before taking it.
 
+## 1.5.1 (2026-10-29)
+
+- Radius primitives move back into the page's built-in Corner radius section (token group `radius`), so they show as visual corner previews and the empty section goes. Radius roles keep their own section. Token names unchanged.
+
 ## 1.5.0 (2026-10-29)
 
 - Radius primitives and radius roles each get their own section, titled "Radius primitives" and "Radius roles" (token groups `radiusPrimitives` and `radiusRoles`). Token names are unchanged.
