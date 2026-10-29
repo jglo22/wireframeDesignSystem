@@ -6,6 +6,11 @@ Versions follow major.minor.patch:
 - **minor** (1.1.0): additions, such as a new token or component. Safe to take.
 - **major** (2.0.0): renames or removals. A brand may need changes before taking it.
 
+## 1.5.0 (2026-10-29)
+
+- Radius primitives and radius roles each get their own section, titled "Radius primitives" and "Radius roles" (token groups `radiusPrimitives` and `radiusRoles`). Token names are unchanged.
+- Brand files that still use the old group names (`radius`, `radiusRole`) keep working.
+
 ## 1.4.0 (2026-10-29)
 
 - Radius now has two layers. The existing `radius-s`, `radius-m`, `radius-l` and `radius-full` are the **primitives**. New **role** tokens say what a corner is for and point at a primitive: `radius-input`, `radius-button`, `radius-card`, `radius-dialog`, `radius-chip`.
