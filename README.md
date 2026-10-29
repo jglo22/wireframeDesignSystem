@@ -43,7 +43,7 @@ Jim's base design system: complete, unbranded defaults that every brand builds o
 ## Spacing, radius, borders, shadows
 
 - Spacing runs 2 / 4 / 8 / 16 / 32px as `space-xs` to `space-xl`; `space-m` (8) is the default.
-- Radius comes in two layers. **Primitives** are the scale: `radius-s` 4, `radius-m` 8, `radius-l` 16, `radius-full` (round). **Roles** say what a corner is for and point at a primitive: `radius-input` (s), `radius-button` (m), `radius-card` (m), `radius-dialog` (l), `radius-chip` (full).
+- Radius comes in two layers. **Primitives** are the scale: `radius-s` 4, `radius-m` 8, `radius-l` 16, `radius-xl` 24, `radius-full` (round). **Roles** say what a corner is for and point at a primitive: `radius-input` (s), `radius-button` (m), `radius-card` (m), `radius-dialog` (l), `radius-chip` (full).
 - On the design system page, the **Corner radius** section shows the primitives and **Radius roles** shows the roles.
 - Components and apps use roles, never primitives directly. A brand changes a corner by overriding the role: point it at another primitive, or, if no step fits and the size is deliberate, give it an exact value. If several brands need the same in-between size, add it to the primitives instead.
 - Borders: `border-s` 1px by default, `border-m` 2px for focus rings in `brand-primary` and selected states, `border-l` 4px for accent bars.
