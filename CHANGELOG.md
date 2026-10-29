@@ -12,6 +12,7 @@ Versions follow major.minor.patch:
 - Export writes a README: the brand's own README followed by this repo's shared rules, so a brand's generated design system carries its full narrative.
 - Tokens a brand overrides are labelled "<Brand> override." in their usage notes.
 - README split into a wireframe intro and shared rules (marked `shared-rules`).
+- Releases are created automatically when a new version in `package.json` reaches `main`.
 
 ## 1.0.0 (2026-10-29)
 

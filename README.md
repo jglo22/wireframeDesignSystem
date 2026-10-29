@@ -6,7 +6,7 @@ Jim's base design system: complete, unbranded defaults that every brand builds o
 
 - **This is the wireframe.** One colour mode. Brand colours are greys (each one points at a grey token) on a white background, so structure can be judged on its own. Status colours stay in colour because they carry meaning.
 - **Brands inherit from it.** A brand lives in its own project (for example `design-system/` in the wellnessApp repo). It holds only its overrides and pins a version of this repo; everything it doesn't override is inherited. `scripts/flatten.mjs` merges the two into one complete system with two modes, Wireframe and Branded; with `--detach` it produces a standalone copy for handover.
-- **Versions.** Releases are tagged (v1.1.0). Brands choose when to take a new version; see CHANGELOG.md.
+- **Versions.** To release, bump the version in `package.json` and add a CHANGELOG entry; when that reaches `main`, GitHub creates the tag and release itself (`.github/workflows/release.yml`). Brands choose when to take a new version; see CHANGELOG.md.
 - **The repo is the master.** The Design System artifacts are generated from it and are read-only. Change the repo, then rebuild them.
 
 <!-- shared-rules: everything below is copied into every brand's generated README -->

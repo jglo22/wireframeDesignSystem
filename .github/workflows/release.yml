@@ -1,0 +1,27 @@
+# Creates the GitHub release (and its tag) for the version in package.json,
+# the first time that version reaches main. Nothing to do by hand.
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tag and release the version in package.json
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          v="v$(node -p "require('./package.json').version")"
+          if gh release view "$v" >/dev/null 2>&1; then
+            echo "$v is already released"
+            exit 0
+          fi
+          notes="$(awk -v ver="${v#v}" '$0 ~ "^## " ver " " {f=1; next} /^## / && f {exit} f' CHANGELOG.md)"
+          gh release create "$v" --target "$GITHUB_SHA" --title "$v" --notes "${notes:-See CHANGELOG.md}"
