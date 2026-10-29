@@ -5,8 +5,13 @@ Jim's base design system: complete, unbranded defaults that every brand builds o
 ## How this system works
 
 - **This is the wireframe.** One colour mode. Brand colours are greys (each one points at a grey token) on a white background, so structure can be judged on its own. Status colours stay in colour because they carry meaning.
-- **Brands live in their own repos** (for example wellnessDesignSystem). A brand repo holds only its overrides and pins a version of this repo. `scripts/flatten.mjs` merges the two into one complete system with two modes, Branded and Wireframe; with `--detach` it produces a standalone copy for handover.
-- **Versions.** Releases are tagged (v1.0.0). Brands choose when to take a new version; see CHANGELOG.md.
+- **Brands inherit from it.** A brand lives in its own project (for example `design-system/` in the wellnessApp repo). It holds only its overrides and pins a version of this repo; everything it doesn't override is inherited. `scripts/flatten.mjs` merges the two into one complete system with two modes, Wireframe and Branded; with `--detach` it produces a standalone copy for handover.
+- **Versions.** Releases are tagged (v1.1.0). Brands choose when to take a new version; see CHANGELOG.md.
+- **The repo is the master.** The Design System artifacts are generated from it and are read-only. Change the repo, then rebuild them.
+
+<!-- shared-rules: everything below is copied into every brand's generated README -->
+## Rules
+
 - **Use a token wherever one exists.** Raw values are allowed only when no token covers them. On every build: swap exact matches for the token, flag near misses (15px where the scale has 16), and list repeated new values as token candidates.
 - **Naming.** Lowercase and hyphenated. Size scales run xs / s / m / l / xl, and `m` is always the default.
 - **Out of scope for now.** Dark mode and a semantic colour layer. Do not invent either.
@@ -58,4 +63,4 @@ Google Material Symbols, Rounded style only. Settings: `icon-weight` 400 to matc
 ## Open decisions
 
 - Semantic colour layer (text-primary, surface, border and so on): needed before the apps are built.
-- Recipe app brand repo.
+- Recipe app brand.

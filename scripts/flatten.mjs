@@ -5,7 +5,9 @@
 //   node scripts/flatten.mjs --brand brand.json --out dist -> wireframe + brand, two colour modes
 //   ... --detach                                          -> brand only, one colour mode, no link back
 //
-// Output folder: tokens.json (complete, every token), tokens.css, fonts/, components/.
+// Output folder: tokens.json (complete, every token), tokens.css, README.md, fonts/, components/.
+// With a brand, README.md = the brand's README.md (next to brand.json, or --readme) followed by
+// this repo's shared rules (everything after the shared-rules marker in README.md).
 
 import { readFileSync, writeFileSync, mkdirSync, cpSync, existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
@@ -21,6 +23,7 @@ const opt = (name) => {
 const brandPath = opt("--brand");
 const outDir = resolve(opt("--out") ?? "dist");
 const detach = args.includes("--detach");
+const readmeArg = opt("--readme");
 
 const base = JSON.parse(readFileSync(join(baseDir, "tokens.json"), "utf8"));
 const basePkg = JSON.parse(readFileSync(join(baseDir, "package.json"), "utf8"));
@@ -42,18 +45,22 @@ out.version = 1;
 if (brand) {
   out.name = brand.name ?? out.name;
   const overrides = byName(brand.color?.tokens);
+  const label = (brand.name ?? "Brand").replace(/ Design System$/, "") + " override. ";
+  const mark = (t) => (t.usage && !t.usage.startsWith(label) ? { usage: label + t.usage } : { usage: label.trim() });
   if (detach) {
     out.color.themes = [{ id: "branded", name: "Branded mode" }];
     out.color.tokens = base.color.tokens.map((t) =>
-      overrides.has(t.name) ? { ...t, value: overrides.get(t.name).value } : t,
+      overrides.has(t.name) ? { ...t, value: overrides.get(t.name).value, ...mark(t) } : t,
     );
   } else {
     out.color.themes = [
-      { id: "branded", name: "Branded mode" },
       { id: "wireframe", name: "Wireframe mode" },
+      { id: "branded", name: "Branded mode" },
     ];
     out.color.tokens = base.color.tokens.map((t) =>
-      overrides.has(t.name) ? { ...t, value: { branded: overrides.get(t.name).value, wireframe: t.value } } : t,
+      overrides.has(t.name)
+        ? { ...t, value: { wireframe: t.value, branded: overrides.get(t.name).value }, ...mark(t) }
+        : t,
     );
   }
   for (const t of brand.color?.tokens ?? [])
@@ -137,6 +144,16 @@ for (const g of out.type.groups) {
 mkdirSync(outDir, { recursive: true });
 writeFileSync(join(outDir, "tokens.json"), JSON.stringify(out, null, 2) + "\n");
 writeFileSync(join(outDir, "tokens.css"), lines.join("\n") + "\n");
+const baseReadme = readFileSync(join(baseDir, "README.md"), "utf8");
+let readme = baseReadme;
+if (brand) {
+  const marker = baseReadme.indexOf("<!-- shared-rules");
+  const shared = marker === -1 ? "" : baseReadme.slice(baseReadme.indexOf("\n", marker) + 1);
+  const brandReadmePath = readmeArg ? resolve(readmeArg) : join(dirname(resolve(brandPath)), "README.md");
+  const brandReadme = existsSync(brandReadmePath) ? readFileSync(brandReadmePath, "utf8").trimEnd() : `# ${out.name}`;
+  readme = `${brandReadme}\n\n${shared}`;
+}
+writeFileSync(join(outDir, "README.md"), readme);
 for (const dir of ["fonts", "components"]) {
   if (existsSync(join(baseDir, dir))) cpSync(join(baseDir, dir), join(outDir, dir), { recursive: true });
 }
