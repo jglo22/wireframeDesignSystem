@@ -9,6 +9,11 @@ Jim's base design system: complete, unbranded defaults that every brand builds o
 - **Versions.** To release, bump the version in `package.json` and add a CHANGELOG entry; when that reaches `main`, GitHub creates the tag and release itself (`.github/workflows/release.yml`). Brands choose when to take a new version; see CHANGELOG.md.
 - **The repo is the master.** The Design System artifacts are generated from it and are read-only. Change the repo, then rebuild them.
 
+## Open decisions
+
+- Semantic colour layer (text-primary, surface, border and so on): needed before the apps are built.
+- Recipe app brand.
+
 <!-- shared-rules: everything below is copied into every brand's generated README -->
 ## Rules
 
@@ -19,12 +24,12 @@ Jim's base design system: complete, unbranded defaults that every brand builds o
 
 ## Colour
 
-- Text sits in `grey-900` (primary), `grey-700` (secondary) or `grey-600` (muted). `grey-600` passes contrast on `white` and on the brands' backgrounds; `grey-500` and lighter are never text.
+- Text sits in `grey-900` (primary), `grey-700` (secondary) or `grey-600` (muted). `grey-600` passes contrast on `white` and on `background`; `grey-500` and lighter are never text.
 - `brand-primary` means "act here": main buttons, links, active tabs, toggles, focus rings, progress. Keep it to roughly 10% of a screen so it keeps its signal.
 - `brand-secondary` supports: tags, highlights, small accents. It never fills a button, so nobody has to guess which thing to tap.
 - Every brand and status colour is a group of four: `-light` (tint behind badges and tags), the base, `-dark` (hover, pressed, and text on the tint) and `-contrast` (text and icons on the base).
 - Status colours: `error`, `warning`, `info`, `success`. `warning-contrast` is `grey-900` because white fails on amber.
-- `background` is white here; brands set their own.
+- `background` is the page background.
 
 ## Typography
 
@@ -50,7 +55,7 @@ Google Material Symbols, Rounded style only. Settings: `icon-weight` 400 to matc
 - Mobile-first. Breakpoints are minimum widths: `breakpoint-m` 768px (48em), `breakpoint-l` 1024px (64em), `breakpoint-xl` 1440px (90em).
 - Grid: 4 columns on phone, 8 from `breakpoint-m`, 12 from `breakpoint-l`. `gutter` 8px and `margin` 16px at every size.
 - `content-max` 1408px. At 1440: 16 + 12 × 110 + 11 × 8 + 16 = 1440. Figma layout grid: 12 columns, Center, width 110, gutter 8.
-- `reading-max` 70ch for long text such as recipe methods.
+- `reading-max` 70ch for long text such as instructions or articles.
 - `touch-target-min` 44px: nothing tappable is smaller.
 
 ## Units and behaviour
@@ -59,8 +64,3 @@ Google Material Symbols, Rounded style only. Settings: `icon-weight` 400 to matc
 - Leave the root font size at the browser default. No 62.5% trick.
 - Motion: `motion-fast` 150ms, `motion-medium` 250ms (default), `motion-slow` 400ms, all on `motion-easing`.
 - `opacity-disabled` 0.4. Layers: `layer-dropdown` 100, `layer-sticky` 200, `layer-modal` 300, `layer-toast` 400.
-
-## Open decisions
-
-- Semantic colour layer (text-primary, surface, border and so on): needed before the apps are built.
-- Recipe app brand.

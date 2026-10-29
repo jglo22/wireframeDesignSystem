@@ -50,7 +50,7 @@ if (brand) {
   if (detach) {
     out.color.themes = [{ id: "branded", name: "Branded mode" }];
     out.color.tokens = base.color.tokens.map((t) =>
-      overrides.has(t.name) ? { ...t, value: overrides.get(t.name).value, ...mark(t) } : t,
+      overrides.has(t.name) ? { ...t, value: overrides.get(t.name).value } : t,
     );
   } else {
     out.color.themes = [
@@ -152,6 +152,18 @@ if (brand) {
   const brandReadmePath = readmeArg ? resolve(readmeArg) : join(dirname(resolve(brandPath)), "README.md");
   const brandReadme = existsSync(brandReadmePath) ? readFileSync(brandReadmePath, "utf8").trimEnd() : `# ${out.name}`;
   readme = `${brandReadme}\n\n${shared}`;
+  if (detach) {
+    // A handover copy stands alone: no inheritance, levers or workflow, only what the client needs.
+    const date = new Date().toISOString().slice(0, 10);
+    readme =
+      `# ${out.name}\n\n` +
+      `A standalone design system, delivered ${date}. Everything it needs is in this folder: ` +
+      "`tokens.json` (every token), `tokens.css` (load it with a `<link>`), `fonts/` and `components/`.\n\n" +
+      "- **Use a token wherever one exists.** Change values in `tokens.json`, then regenerate `tokens.css`, or edit `tokens.css` directly and keep the two in step.\n" +
+      "- **Fonts** are included as files under the SIL Open Font License; no external font service is needed.\n" +
+      "- **Components** (`components/bundle.js`, `bundle.css`) need React 18 on the page; each component's README explains its use.\n\n" +
+      shared;
+  }
 }
 writeFileSync(join(outDir, "README.md"), readme);
 for (const dir of ["fonts", "components"]) {
