@@ -11,7 +11,6 @@ Jim's base design system: complete, unbranded defaults that every brand builds o
 
 ## Open decisions
 
-- Semantic colour layer (text-primary, surface, border and so on): needed before the apps are built.
 - Recipe app brand.
 
 <!-- shared-rules: everything below is copied into every brand's generated README -->
@@ -19,13 +18,15 @@ Jim's base design system: complete, unbranded defaults that every brand builds o
 
 - **Use a token wherever one exists.** Raw values are allowed only when no token covers them. On every build: swap exact matches for the token, flag near misses (15px where the scale has 16), and list repeated new values as token candidates.
 - **Naming.** Lowercase and hyphenated. Size scales run xs / s / m / l / xl, and `m` is always the default.
-- **Out of scope for now.** Dark mode and a semantic colour layer. Do not invent either.
+- **Out of scope for now.** Dark mode. Do not invent it.
 - **Roles before primitives.** Where a role token exists (for example `radius-card`), use it rather than the primitive it points at.
 - **Components nest.** Small components (Atoms) build bigger ones (Molecules, then Blocks, then Pages). Each component README lists what it is built from. Changing a small component updates everything that contains it.
 
 ## Colour
 
-- Text sits in `grey-900` (primary), `grey-700` (secondary) or `grey-600` (muted). `grey-600` passes contrast on `white` and on `background`; `grey-500` and lighter are never text.
+- Colour comes in two layers, like radius. **Primitives** are the greys, black, white, `background`, and the brand and status groups. **Roles** say what a colour is for and point at a primitive: `text-*` (primary, secondary, muted, inverse, link), `surface-*` (page, card, subtle, inverse) and `stroke-*` (subtle, default, strong, focus). "Stroke" is the colour of an outline; its width comes from `border-s`, `border-m` or `border-l`.
+- Components and apps use colour roles, never greys directly. A brand changes a role by overriding it in its colour tokens, either pointing at another primitive or giving an exact value.
+- Text sits in `text-primary` (grey-900), `text-secondary` (grey-700) or `text-muted` (grey-600). `grey-600` passes contrast on `white` and on `background`; `grey-500` and lighter are never text.
 - `brand-primary` means "act here": main buttons, links, active tabs, toggles, focus rings, progress. Keep it to roughly 10% of a screen so it keeps its signal.
 - `brand-secondary` supports: tags, highlights, small accents. It never fills a button, so nobody has to guess which thing to tap.
 - Every brand and status colour is a group of four: `-light` (tint behind badges and tags), the base, `-dark` (hover, pressed, and text on the tint) and `-contrast` (text and icons on the base).

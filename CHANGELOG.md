@@ -6,6 +6,12 @@ Versions follow major.minor.patch:
 - **minor** (1.1.0): additions, such as a new token or component. Safe to take.
 - **major** (2.0.0): renames or removals. A brand may need changes before taking it.
 
+## 1.7.0 (2026-10-29)
+
+- Colour roles: `text-primary`, `text-secondary`, `text-muted`, `text-inverse`, `text-link`; `surface-page`, `surface-card`, `surface-subtle`, `surface-inverse`; `stroke-subtle`, `stroke-default`, `stroke-strong`, `stroke-focus`. Each points at a colour primitive.
+- Button and Headings use colour roles. They look the same as before.
+- The semantic colour layer is no longer out of scope.
+
 ## 1.6.0 (2026-10-29)
 
 - New radius primitive: `radius-xl` 24px.

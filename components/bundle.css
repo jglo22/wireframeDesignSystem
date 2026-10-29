@@ -19,7 +19,7 @@
     color var(--motion-fast) var(--motion-easing);
 }
 .pds-btn:focus-visible {
-  outline: var(--border-m) solid var(--brand-primary);
+  outline: var(--border-m) solid var(--stroke-focus);
   outline-offset: var(--space-xs);
 }
 .pds-btn:disabled {
@@ -36,7 +36,7 @@
 }
 
 .pds-btn-outline {
-  background: var(--white);
+  background: var(--surface-card);
   border-color: var(--brand-primary);
   color: var(--brand-primary);
 }
@@ -60,5 +60,5 @@
   font-family: var(--font-display);
   font-weight: var(--weight-extrabold);
   line-height: var(--leading-tight);
-  color: var(--grey-900);
+  color: var(--text-primary);
 }

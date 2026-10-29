@@ -138,7 +138,8 @@ themes.forEach((theme, i) => {
   const sel = i === 0 ? `:root, [data-theme="${theme}"]` : `[data-theme="${theme}"]`;
   lines.push("", `${sel} {`);
   for (const tok of out.color.tokens) {
-    if (i > 0 && typeof tok.value === "string") continue;
+    // later modes re-declare what changes, plus every alias, so roles follow the mode on any element
+    if (i > 0 && typeof tok.value === "string" && !/^\{.+\}$/.test(tok.value)) continue;
     lines.push(`  --${tok.name}: ${cssVal(valueFor(tok, theme))};`);
   }
   if (i === 0) for (const tok of out.shadow?.tokens ?? []) lines.push(`  --${tok.name}: ${tok.value};`);
