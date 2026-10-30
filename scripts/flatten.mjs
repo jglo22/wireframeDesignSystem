@@ -29,6 +29,18 @@ const base = JSON.parse(readFileSync(join(baseDir, "tokens.json"), "utf8"));
 const basePkg = JSON.parse(readFileSync(join(baseDir, "package.json"), "utf8"));
 const brand = brandPath ? JSON.parse(readFileSync(resolve(brandPath), "utf8")) : null;
 
+// Colours named before 2.0.0 (brand-primary, brand-secondary...) still work in brand.json.
+const LEGACY_COLOUR = /\bbrand-(primary|secondary)/g;
+if (brand?.color?.tokens) {
+  for (const t of brand.color.tokens) {
+    const before = JSON.stringify(t);
+    const after = before.replace(LEGACY_COLOUR, "$1");
+    if (after === before) continue;
+    Object.assign(t, JSON.parse(after));
+    console.warn(`brand.json: ${t.name} uses brand-primary or brand-secondary, renamed in 2.0.0 to primary or secondary. Update brand.json.`);
+  }
+}
+
 // ---- merge -----------------------------------------------------------------
 const byName = (list) => new Map((list ?? []).map((t) => [t.name, t]));
 

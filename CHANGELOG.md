@@ -6,6 +6,19 @@ Versions follow major.minor.patch:
 - **minor** (1.1.0): additions, such as a new token or component. Safe to take.
 - **major** (2.0.0): renames or removals. A brand may need changes before taking it.
 
+## 2.0.0 (2026-10-30)
+
+Renames. A brand may need changes before taking this version.
+
+- `brand-primary` and `brand-secondary` and their groups are renamed `primary` and `secondary`: `primary-light`, `primary`, `primary-dark`, `primary-contrast`, and the same for `secondary`. Values are unchanged. The old names read as a mistake in Wireframe mode, where these colours are grey.
+- Button, `text-link` and `stroke-focus` use the new names. They look the same.
+- In Figma the group becomes `jg-/primary/…` and `jg-/secondary/…`; a sync renames the variables in place.
+
+To take this version:
+
+- **brand.json:** rename `brand-primary…` and `brand-secondary…` colour overrides (names and `{brand-…}` aliases) to `primary…` and `secondary…`. Until you do, the export still accepts the old names and warns about each one.
+- **App styles:** replace `var(--brand-primary…)` and `var(--brand-secondary…)` with `var(--primary…)` and `var(--secondary…)`. The export does not keep the old CSS names.
+
 ## 1.16.0 (2026-10-30)
 
 - README, Figma section: breakpoints and layout tokens become variables in `jg-primitives` (px; `reading-max` skipped), and four layout grid styles, `jg-grids/grid-s` to `grid-xl` (4, 8, 12 and 12 centred columns, gutter 8, margin 16). No token or CSS changes.

@@ -28,30 +28,30 @@
 }
 
 .pds-btn-primary {
-  background: var(--brand-primary);
-  color: var(--brand-primary-contrast);
+  background: var(--primary);
+  color: var(--primary-contrast);
 }
 .pds-btn-primary:hover:not(:disabled) {
-  background: var(--brand-primary-dark);
+  background: var(--primary-dark);
 }
 
 .pds-btn-outline {
   background: var(--surface-card);
-  border-color: var(--brand-primary);
-  color: var(--brand-primary);
+  border-color: var(--primary);
+  color: var(--primary);
 }
 .pds-btn-outline:hover:not(:disabled) {
-  background: var(--brand-primary-light);
-  color: var(--brand-primary-dark);
+  background: var(--primary-light);
+  color: var(--primary-dark);
 }
 
 .pds-btn-ghost {
   background: transparent;
-  color: var(--brand-primary);
+  color: var(--primary);
 }
 .pds-btn-ghost:hover:not(:disabled) {
-  background: var(--brand-primary-light);
-  color: var(--brand-primary-dark);
+  background: var(--primary-light);
+  color: var(--primary-dark);
 }
 
 /* Heading, level 1 (test). Size from the font-4xl type style class. */
