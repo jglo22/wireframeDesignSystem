@@ -12,7 +12,7 @@ Versions follow major.minor.patch:
 
 ## 1.9.0 (2026-10-30)
 
-- The prefix is now `jg-`, and Figma names use it exactly as written: collections `jg-primitives` and `jg-roles`, mode `jg-Wireframe`, variables under a `jg-` group (`jg-/grey/grey-900`).
+- The prefix is now `jg-`, and Figma names use it exactly as written: collections `jg-primitives` and `jg-roles`, mode `jg-Wireframe` (lowercased to `jg-wireframe` in 1.9.1), variables under a `jg-` group (`jg-/grey/grey-900`).
 - Text styles and effect styles get the prefix too: `jg-/font/font-xs`, `jg-/shadow/shadow-m`.
 - Token names and CSS are unchanged.
 
