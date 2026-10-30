@@ -6,6 +6,11 @@ Versions follow major.minor.patch:
 - **minor** (1.1.0): additions, such as a new token or component. Safe to take.
 - **major** (2.0.0): renames or removals. A brand may need changes before taking it.
 
+## 1.13.0 (2026-10-30)
+
+- Each type style points at its weight token (`fontWeightRef`: `weight-regular`, `weight-medium` or `weight-semibold`), and the CSS classes use it (`font-weight: var(--weight-regular)`). The weights are unchanged. A brand that sets a plain `fontWeight` on a style drops the pointer.
+- README, Figma section: a "Text styles" rule (family, size and weight bound to variables; line height as a percentage; letter spacing 0; usage note as description).
+
 ## 1.12.0 (2026-10-30)
 
 - README, Figma section: radius primitives are hidden from pickers too, so designers pick radius roles. New "Role scopes" rule: `text-*` to text and shape fill (so icons can use text colours), `surface-*` to frame and shape fill, `stroke-*` to stroke colour, radius roles to corner radius.

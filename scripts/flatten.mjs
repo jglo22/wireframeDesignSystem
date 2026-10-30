@@ -39,6 +39,7 @@ function mergeList(baseList, brandList, label = "") {
     const o = over.get(t.name);
     const m = { ...t, ...o };
     if ("value" in o && !("ref" in o)) delete m.ref; // an exact value replaces the role's pointer
+    if ("fontWeight" in o && !("fontWeightRef" in o)) delete m.fontWeightRef; // same for a type style's weight
     if (label && t.usage && !t.usage.startsWith(label)) m.usage = label + t.usage;
     return m;
   });
@@ -116,6 +117,15 @@ for (const t of allTokens.values()) {
   const base = (t.usage ?? "").replace(POINTS, "");
   t.usage = `${base} ${t.ref ? `Points to ${t.ref}` : `Set to ${t.value}`}.`.trim();
 }
+// a type style with "fontWeightRef" takes its weight from that weight token
+for (const g of out.type.groups) {
+  for (const s of g.styles) {
+    if (!s.fontWeightRef) continue;
+    const target = allTokens.get(s.fontWeightRef);
+    if (!target) throw new Error(`${s.name} points at ${s.fontWeightRef}, which does not exist`);
+    s.fontWeight = Number(target.value);
+  }
+}
 
 // ---- css -------------------------------------------------------------------
 const cssVal = (v) => (typeof v === "string" && /^\{.+\}$/.test(v) ? `var(--${v.slice(1, -1)})` : v);
@@ -162,7 +172,7 @@ for (const g of out.type.groups) {
       `  font-family: var(--font-${s.family || g.family});`,
       `  font-size: var(--${s.name});`,
       `  line-height: ${s.lineHeight};`,
-      `  font-weight: ${s.fontWeight};`,
+      `  font-weight: ${s.fontWeightRef ? `var(--${s.fontWeightRef})` : s.fontWeight};`,
       "}",
     );
   }
