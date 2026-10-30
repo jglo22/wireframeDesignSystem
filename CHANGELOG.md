@@ -9,6 +9,7 @@ Versions follow major.minor.patch:
 ## 1.15.0 (2026-10-30)
 
 - New colours for review mark-up: `highlight-1` to `highlight-6` (yellow, pink, orange, lime, cyan, violet). Review only, never in a finished design. In Figma they get their own collection, `jg-highlights`.
+- README, Figma section: descriptions for the two font family variables, and a "Syncing" rule (compare with the repo and update the `jg-` collections and styles; no version recorded in Figma).
 
 ## 1.14.0 (2026-10-30)
 
