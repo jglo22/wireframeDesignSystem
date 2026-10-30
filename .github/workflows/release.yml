@@ -9,6 +9,9 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: releases
+
 jobs:
   release:
     runs-on: ubuntu-latest
