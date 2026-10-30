@@ -6,6 +6,11 @@ Versions follow major.minor.patch:
 - **minor** (1.1.0): additions, such as a new token or component. Safe to take.
 - **major** (2.0.0): renames or removals. A brand may need changes before taking it.
 
+## 1.8.0 (2026-10-30)
+
+- New `prefix` field in tokens.json, set to `jg`. It marks this system's variables in Figma: collections `jg-Primitives` and `jg-Roles`, variables under a top-level `jg` group. Token names and CSS are unchanged.
+- A brand inherits the prefix, or sets its own `prefix` in brand.json.
+
 ## 1.7.0 (2026-10-29)
 
 - Colour roles: `text-primary`, `text-secondary`, `text-muted`, `text-inverse`, `text-link`; `surface-page`, `surface-card`, `surface-subtle`, `surface-inverse`; `stroke-subtle`, `stroke-default`, `stroke-strong`, `stroke-focus`. Each points at a colour primitive.

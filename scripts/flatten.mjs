@@ -51,6 +51,7 @@ out.version = 1;
 
 if (brand) {
   out.name = brand.name ?? out.name;
+  out.prefix = brand.prefix ?? out.prefix;
   const overrides = byName(brand.color?.tokens);
   const label = (brand.name ?? "Brand").replace(/ Design System$/, "") + " override. ";
   const mark = (t) => (t.usage && !t.usage.startsWith(label) ? { usage: label + t.usage } : { usage: label.trim() });

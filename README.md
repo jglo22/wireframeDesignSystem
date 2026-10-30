@@ -20,6 +20,7 @@ Jim's base design system: complete, unbranded defaults that every brand builds o
 - **Naming.** Lowercase and hyphenated. Size scales run xs / s / m / l / xl, and `m` is always the default.
 - **Out of scope for now.** Dark mode. Do not invent it.
 - **Roles before primitives.** Where a role token exists (for example `radius-card`), use it rather than the primitive it points at.
+- **Prefix in Figma only.** `prefix` in tokens.json marks this system's variables in Figma, so they stand apart from any other library in the file. Collections are named `<prefix>-Primitives` and `<prefix>-Roles`, and every variable sits under a top-level `<prefix>` group (`<prefix>/grey/grey-900`). Token names in the repo and in CSS stay unprefixed (`grey-900`, `--grey-900`), and a variable's code syntax in Figma uses the CSS name. Read the prefix from tokens.json; never type it from memory. A brand inherits it unless its brand.json sets its own `prefix`.
 - **Components nest.** Small components (Atoms) build bigger ones (Molecules, then Blocks, then Pages). Each component README lists what it is built from. Changing a small component updates everything that contains it.
 
 ## Colour
