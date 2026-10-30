@@ -6,6 +6,10 @@ Versions follow major.minor.patch:
 - **minor** (1.1.0): additions, such as a new token or component. Safe to take.
 - **major** (2.0.0): renames or removals. A brand may need changes before taking it.
 
+## 1.16.0 (2026-10-30)
+
+- README, Figma section: breakpoints and layout tokens become variables in `jg-primitives` (px; `reading-max` skipped), and four layout grid styles, `jg-grids/grid-s` to `grid-xl` (4, 8, 12 and 12 centred columns, gutter 8, margin 16). No token or CSS changes.
+
 ## 1.15.0 (2026-10-30)
 
 - New colours for review mark-up: `highlight-1` to `highlight-6` (yellow, pink, orange, lime, cyan, violet). Review only, never in a finished design. In Figma they get their own collection, `jg-highlights`.
