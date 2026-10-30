@@ -6,6 +6,10 @@ Versions follow major.minor.patch:
 - **minor** (1.1.0): additions, such as a new token or component. Safe to take.
 - **major** (2.0.0): renames or removals. A brand may need changes before taking it.
 
+## 1.8.1 (2026-10-30)
+
+- The Figma prefix rule now covers modes too: `jg-Wireframe` (and `jg-Branded` for a brand). Token names and CSS are unchanged.
+
 ## 1.8.0 (2026-10-30)
 
 - New `prefix` field in tokens.json, set to `jg`. It marks this system's variables in Figma: collections `jg-Primitives` and `jg-Roles`, variables under a top-level `jg` group. Token names and CSS are unchanged.
