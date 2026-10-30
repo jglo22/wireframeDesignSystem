@@ -6,6 +6,10 @@ Versions follow major.minor.patch:
 - **minor** (1.1.0): additions, such as a new token or component. Safe to take.
 - **major** (2.0.0): renames or removals. A brand may need changes before taking it.
 
+## 1.14.0 (2026-10-30)
+
+- README: shadows keep their colour as a literal `rgba()` of `grey-900` (a token can't carry its own opacity); change them together. New Figma rule, "Effect styles": one drop shadow per shadow token, spread 0, colour and opacity literal, not bound.
+
 ## 1.13.0 (2026-10-30)
 
 - Each type style points at its weight token (`fontWeightRef`: `weight-regular`, `weight-medium` or `weight-semibold`), and the CSS classes use it (`font-weight: var(--weight-regular)`). The weights are unchanged. A brand that sets a plain `fontWeight` on a style drops the pointer.

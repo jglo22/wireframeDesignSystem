@@ -49,7 +49,7 @@ Jim's base design system: complete, unbranded defaults that every brand builds o
 - On the design system page, the **Corner radius** section shows the primitives and **Radius roles** shows the roles.
 - Components and apps use roles, never primitives directly. A brand changes a corner by overriding the role: point it at another primitive, or, if no step fits and the size is deliberate, give it an exact value. If several brands need the same in-between size, add it to the primitives instead.
 - Borders: `border-s` 1px by default, `border-m` 2px for focus rings in `brand-primary` and selected states, `border-l` 4px for accent bars.
-- Shadows use `grey-900` at low opacity: `shadow-s` for buttons and inputs, `shadow-m` for cards, `shadow-l` for modals.
+- Shadows use `grey-900` at low opacity: `shadow-s` for buttons and inputs, `shadow-m` for cards, `shadow-l` for modals. The colour is written into each shadow as `rgba()` rather than pointing at `grey-900`, because a token can't carry its own opacity; if `grey-900` changes, change the shadows with it.
 
 ## Iconography
 
@@ -83,3 +83,4 @@ How this system's tokens are written into a Figma file. Nothing here changes tok
 - **Who sees what in pickers.** Primitives that roles cover are hidden from pickers: the neutral colours (greys, `black`, `white`, `background`) and the radius primitives (`radius-s` to `radius-full`). Roles can still alias them. Brand and status colours stay pickable, because components fill with them directly. Other primitives are scoped to where they belong: `space` to gap and padding, `border` to stroke width, font sizes to font size, families to font family, `weight` to font weight.
 - **Role scopes.** `text-*` to text fill and shape fill (icons are shapes and take the colour of the text around them); `surface-*` to frame and shape fill; `stroke-*` to stroke colour; radius roles to corner radius.
 - **Text styles.** One per type style, `font/font-xs` to `font/font-4xl`, in that order. Family, size and weight are bound to variables (`font/font-body`, `font/font-xs`, and the weight token the style's `fontWeightRef` names). Line height is a percentage, letter spacing is 0, and the description is the style's usage note. If a bound weight doesn't pick the right face in a font, leave that weight unbound and say so.
+- **Effect styles.** One drop shadow per shadow token, `shadow/shadow-s` to `shadow/shadow-l`, with x, y and blur from the token, spread 0, and the token's colour and opacity as a literal (not bound: a colour variable carries its own opacity, so binding `grey-900` would make the shadow solid). The description is the usage note.
