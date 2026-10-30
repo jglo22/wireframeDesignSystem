@@ -6,6 +6,10 @@ Versions follow major.minor.patch:
 - **minor** (1.1.0): additions, such as a new token or component. Safe to take.
 - **major** (2.0.0): renames or removals. A brand may need changes before taking it.
 
+## 2.1.0 (2026-10-30)
+
+- README, Figma section: never detach, swap or rebuild nested components. If a rule can only be met inside a nested component, stop and ask (change its main component once approved, or list the gap). A build that loses a nested link has failed and is undone.
+
 ## 2.0.0 (2026-10-30)
 
 Renames. A brand may need changes before taking this version.
