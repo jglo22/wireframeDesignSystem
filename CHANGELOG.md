@@ -6,6 +6,10 @@ Versions follow major.minor.patch:
 - **minor** (1.1.0): additions, such as a new token or component. Safe to take.
 - **major** (2.0.0): renames or removals. A brand may need changes before taking it.
 
+## 1.9.1 (2026-10-30)
+
+- Figma mode names are lowercase, like the collections: `jg-wireframe` (and `jg-branded` for a brand).
+
 ## 1.9.0 (2026-10-30)
 
 - The prefix is now `jg-`, and Figma names use it exactly as written: collections `jg-primitives` and `jg-roles`, mode `jg-Wireframe`, variables under a `jg-` group (`jg-/grey/grey-900`).
