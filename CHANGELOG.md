@@ -6,6 +6,10 @@ Versions follow major.minor.patch:
 - **minor** (1.1.0): additions, such as a new token or component. Safe to take.
 - **major** (2.0.0): renames or removals. A brand may need changes before taking it.
 
+## 1.10.0 (2026-10-30)
+
+- New rule, Figma groups: each variable or style is grouped by the first word of its name (`jg-/grey/grey-900`). Status bases go inside their group (`jg-/error/error`); `black`, `white` and `background` sit directly under the prefix (`jg-/black`); layout tokens share one `layout` group.
+
 ## 1.9.1 (2026-10-30)
 
 - Figma mode names are lowercase, like the collections: `jg-wireframe` (and `jg-branded` for a brand).
