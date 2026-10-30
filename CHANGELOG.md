@@ -6,6 +6,10 @@ Versions follow major.minor.patch:
 - **minor** (1.1.0): additions, such as a new token or component. Safe to take.
 - **major** (2.0.0): renames or removals. A brand may need changes before taking it.
 
+## 1.15.0 (2026-10-30)
+
+- New colours for review mark-up: `highlight-1` to `highlight-6` (yellow, pink, orange, lime, cyan, violet). Review only, never in a finished design. In Figma they get their own collection, `jg-highlights`.
+
 ## 1.14.0 (2026-10-30)
 
 - README: shadows keep their colour as a literal `rgba()` of `grey-900` (a token can't carry its own opacity); change them together. New Figma rule, "Effect styles": one drop shadow per shadow token, spread 0, colour and opacity literal, not bound.
