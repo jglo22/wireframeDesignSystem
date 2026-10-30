@@ -6,6 +6,10 @@ Versions follow major.minor.patch:
 - **minor** (1.1.0): additions, such as a new token or component. Safe to take.
 - **major** (2.0.0): renames or removals. A brand may need changes before taking it.
 
+## 2.2.1 (2026-10-30)
+
+- README, Figma section: a corner radius of 0 stays unbound (no `radius-none` token); padding and gaps of 0 bind to `space-none`.
+
 ## 2.2.0 (2026-10-30)
 
 - New spacing: `space-none` (0), and `space-2xl` 48, `space-3xl` 64 and `space-4xl` 96 for gaps between groups and page sections.
