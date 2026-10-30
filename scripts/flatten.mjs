@@ -148,6 +148,7 @@ themes.forEach((theme, i) => {
 });
 lines.push("", ":root {");
 for (const [key, fam] of Object.entries(out.type.families)) lines.push(`  --font-${key}: ${fam};`);
+for (const g of out.type.groups) for (const s of g.styles) lines.push(`  --${s.name}: ${s.fontSize};`);
 for (const [key, fam] of Object.entries(out)) {
   if (["color", "type", "shadow", "meta"].includes(key) || !fam?.tokens) continue;
   for (const tok of fam.tokens) lines.push(`  --${tok.name}: ${tok.ref ? `var(--${tok.ref})` : tok.value};`);
@@ -159,7 +160,7 @@ for (const g of out.type.groups) {
       "",
       `.${s.name} {`,
       `  font-family: var(--font-${s.family || g.family});`,
-      `  font-size: ${s.fontSize};`,
+      `  font-size: var(--${s.name});`,
       `  line-height: ${s.lineHeight};`,
       `  font-weight: ${s.fontWeight};`,
       "}",

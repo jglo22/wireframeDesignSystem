@@ -20,8 +20,6 @@ Jim's base design system: complete, unbranded defaults that every brand builds o
 - **Naming.** Lowercase and hyphenated. Size scales run xs / s / m / l / xl, and `m` is always the default.
 - **Out of scope for now.** Dark mode. Do not invent it.
 - **Roles before primitives.** Where a role token exists (for example `radius-card`), use it rather than the primitive it points at.
-- **Prefix in Figma only.** `prefix` in tokens.json marks everything this system adds to Figma, so it stands apart from any other library in the file. It goes in front of every name exactly as written, hyphen included: collections `<prefix>primitives` and `<prefix>roles`; modes `<prefix>` plus the colour theme's name in lowercase, without "mode" (`<prefix>wireframe`, `<prefix>branded`); and a top-level `<prefix>` group over every variable (`<prefix>/grey/grey-900`), text style (`<prefix>/font/font-xs`) and effect style (`<prefix>/shadow/shadow-m`). Token names in the repo and in CSS stay unprefixed (`grey-900`, `--grey-900`), and a variable's code syntax in Figma uses the CSS name (`var(--grey-900)`). Read the prefix from tokens.json; never type it from memory. A brand inherits it unless its brand.json sets its own `prefix`.
-- **Figma groups.** Inside the prefix group, each variable or style sits in a group named after the first word of its name: `grey/grey-900`, `brand/brand-primary-light`, `text/text-primary`, `space/space-m`, `font/font-xs`. A one-word name that heads a group goes inside that group (`error/error`, next to `error/error-light`). Other one-word names sit directly under the prefix (`black`, `white`, `background`). Layout tokens share no first word, so they all go in one `layout` group (`layout/content-max`, `layout/gutter`).
 - **Components nest.** Small components (Atoms) build bigger ones (Molecules, then Blocks, then Pages). Each component README lists what it is built from. Changing a small component updates everything that contains it.
 
 ## Colour
@@ -38,6 +36,7 @@ Jim's base design system: complete, unbranded defaults that every brand builds o
 ## Typography
 
 - `font-display` is Atkinson Hyperlegible Next, for headings and large moments. `font-body` is Inter, for body and all UI text. Both are stored in this system as variable font files (Latin, OFL licence), so they load without Google Fonts.
+- Each type style's size is also a variable of the same name (`--font-xs` to `--font-4xl`), which the style's class uses.
 - Sizes derive from two tokens: `type-base` (18px) and `type-ratio` (1.125, Major Second). Each step is base × ratio^n, rounded to one decimal place. Changing either token recalculates the scale.
 - Allowed ratios: Minor Second 1.067, Major Second 1.125, Minor Third 1.2, Major Third 1.25, Perfect Fourth 1.333, Augmented Fourth 1.414, Perfect Fifth 1.5, Golden Ratio 1.618.
 - Weights: `weight-light` 300 for large display text only (never below `font-xl`), `weight-regular` 400 for body, `weight-medium` 500 for labels and buttons, `weight-semibold` 600 for headings, `weight-bold` 700 sparingly, `weight-extrabold` 800 for page titles in the display face only.
@@ -70,3 +69,15 @@ Google Material Symbols, Rounded style only. Settings: `icon-weight` 400 to matc
 - Leave the root font size at the browser default. No 62.5% trick.
 - Motion: `motion-fast` 150ms, `motion-medium` 250ms (default), `motion-slow` 400ms, all on `motion-easing`.
 - `opacity-disabled` 0.4. Layers: `layer-dropdown` 100, `layer-sticky` 200, `layer-modal` 300, `layer-toast` 400.
+
+## Figma
+
+How this system's tokens are written into a Figma file. Nothing here changes token names or CSS.
+
+- **Prefix.** `prefix` in tokens.json marks everything this system adds to Figma, so it stands apart from any other library in the file. It goes in front of every name exactly as written, hyphen included: collections `<prefix>primitives` and `<prefix>roles`; modes `<prefix>` plus the colour theme's name in lowercase, without "mode" (`<prefix>wireframe`, `<prefix>branded`); and a top-level `<prefix>` group over every variable (`<prefix>/grey/grey-900`), text style (`<prefix>/font/font-xs`) and effect style (`<prefix>/shadow/shadow-m`). Token names in the repo and in CSS stay unprefixed (`grey-900`, `--grey-900`), and a variable's code syntax in Figma uses the CSS name (`var(--grey-900)`). Read the prefix from tokens.json; never type it from memory. A brand inherits it unless its brand.json sets its own `prefix`.
+- **Groups.** Inside the prefix group, each variable or style sits in a group named after the first word of its name: `grey/grey-900`, `brand/brand-primary-light`, `text/text-primary`, `space/space-m`, `font/font-xs`. A one-word name that heads a group goes inside that group (`error/error`, next to `error/error-light`). Other one-word names sit directly under the prefix (`black`, `white`, `background`). Layout tokens share no first word, so they all go in one `layout` group (`layout/content-max`, `layout/gutter`).
+- **Units.** Figma takes px: convert rem at 1rem = 16px, rounded to one decimal place (spacing 2, 4, 8, 16, 32; font sizes 14.2, 16, 18 and so on). Radius and border widths are already px; weights are plain numbers.
+- **Line heights are not variables.** Figma reads a bound number as px, so `leading-*` (1.2, 1.35, 1.5) would become 1.2px. Text styles set line height as a percentage instead (120%, 135%, 150%). CSS keeps `--leading-*`.
+- **Font families.** `font/font-display` and `font/font-body` hold the plain family name (`Inter`), not the CSS fallback stack.
+- **Each variable** gets its token's usage note as its description and its CSS name as its code syntax (`var(--grey-900)`).
+- **Who sees what in pickers.** Neutral colour primitives (greys, `black`, `white`, `background`) are hidden from pickers, because the text, surface and stroke roles cover them. Brand and status colours stay pickable, because components fill with them directly. Every other variable is scoped to where it belongs: `space` to gap and padding, `radius` to corner radius, `border` to stroke width, font sizes to font size, families to font family, `weight` to font weight.

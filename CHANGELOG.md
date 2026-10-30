@@ -6,6 +6,11 @@ Versions follow major.minor.patch:
 - **minor** (1.1.0): additions, such as a new token or component. Safe to take.
 - **major** (2.0.0): renames or removals. A brand may need changes before taking it.
 
+## 1.11.0 (2026-10-30)
+
+- New CSS variables for font sizes, `--font-xs` to `--font-4xl`. The type classes use them; the sizes are unchanged.
+- README: a new Figma section gathers the prefix and group rules and adds units (px), line heights (percentages in text styles, not variables), font family names, descriptions and code syntax, and which variables show in pickers (neutral colour primitives hidden).
+
 ## 1.10.0 (2026-10-30)
 
 - New rule, Figma groups: each variable or style is grouped by the first word of its name (`jg-/grey/grey-900`). Status bases go inside their group (`jg-/error/error`); `black`, `white` and `background` sit directly under the prefix (`jg-/black`); layout tokens share one `layout` group.
