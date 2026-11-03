@@ -2,6 +2,8 @@
 
 Jim's base design system. Brands inherit from it (for example `design-system/` in jglo22/wellnessApp). If the design-system-workflow skill is available, load it.
 
+- **Start here:** read README.md › "Where it's at" (the status) and the open GitHub issues (the to-dos). Keep "Where it's at" current in the same commit as any change that moves things on; log new to-dos as issues and close them when done. This repo is **public**: nothing personal in the README, issues or commits (Jim's private notes stay in lifeOS).
+
 - This repo is the master. The Wireframe Design System artifact (https://claude.ai/artifact/3pq3o9ZGqHgq7XfWeZiydu) is a read-only view: rebuild it from `tokens.json` and `README.md` on main after any change, by copying those files; never edit the artifact by hand or rebuild it from an unmerged branch.
 - Commit straight to `main`, not a side branch: Jim asking for a change is the approval, and main is what releases. Only a major version (renames or removals) goes through a pull request for Jim's OK.
 - To release: bump `version` in package.json (minor for additions, major for renames or removals) and add a CHANGELOG entry. When it reaches main, `.github/workflows/release.yml` creates the tag and release. Don't ask Jim to make releases.

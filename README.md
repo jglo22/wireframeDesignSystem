@@ -9,9 +9,23 @@ Jim's base design system: complete, unbranded defaults that every brand builds o
 - **Versions.** To release, bump the version in `package.json` and add a CHANGELOG entry; when that reaches `main`, GitHub creates the tag and release itself (`.github/workflows/release.yml`). Brands choose when to take a new version; see CHANGELOG.md.
 - **The repo is the master.** The Design System artifacts are generated from it and are read-only. Change the repo, then rebuild them.
 
-## Open decisions
+## Where it's at
 
-- Recipe app brand.
+*Status snapshot. Update it in the same commit as any change that moves things on. To-dos are [GitHub issues](https://github.com/jglo22/wireframeDesignSystem/issues), not here.*
+
+- **Release 2.2.1** (30 Oct 2026). Tokens (colour, type, spacing, radius, borders, shadows, layout, breakpoints), colour and radius roles, fonts, Button and Headings components, the flatten/export script, and Figma sync rules.
+- **Nearly steady.** It moved fast at the start (1.2 to 2.2 in three days, including the 2.0 colour renames). Two base gaps are open before it's settled: type roles (#2) and spacing roles (#3).
+- **Brands** (wellness, recipe) live in their apps' repos and take new releases when they choose.
+
+**Decisions (and why)**
+
+- **The repo is the master.** Artifacts and Figma are generated from it, one way, so nothing lives in two places.
+- **Base plus brands, not copies.** Complete defaults here; each brand holds only overrides and pins a version. `--detach` makes a standalone copy for handover.
+- **Two colour modes:** Wireframe (greys on white) and Branded. No dark mode.
+- **Primitives and roles.** Roles say what something is for and point at a primitive; brands override roles, not the scales. Done for colour and radius.
+- **Design leads, but tidy drift.** Keep in-between values only where they're deliberate; snap the rest to the scale.
+- **Fonts:** Atkinson Hyperlegible Next (headings), Inter (body). Icons: Material Symbols Rounded.
+- **Grid:** 12 columns of 110px, 8px gutters, 16px margins at 1440; 4 and 8 columns on phone and tablet.
 
 <!-- shared-rules: everything below is copied into every brand's generated README -->
 ## Rules
