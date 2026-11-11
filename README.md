@@ -22,7 +22,7 @@ Jim's base design system: complete, unbranded defaults that every brand builds o
 - **The repo is the master.** Artifacts and Figma are generated from it, one way, so nothing lives in two places.
 - **Base plus brands, not copies.** Complete defaults here; each brand holds only overrides and pins a version. `--detach` makes a standalone copy for handover.
 - **Two colour modes:** Wireframe (greys on white) and Branded. No dark mode.
-- **Primitives and roles.** Roles say what something is for and point at a primitive; brands override roles, not the scales. Done for colour and radius.
+- **Only ever pick roles.** Primitives are the palette, kept for reference; roles say what something is for and point at a primitive. Designs, components and apps only ever use roles; brands override roles, not the scales. Done for colour (text, surfaces, strokes) and radius; still to come: type (#2), spacing (#3) and fills for primary, secondary and status colours (#5).
 - **Design leads, but tidy drift.** Keep in-between values only where they're deliberate; snap the rest to the scale.
 - **Fonts:** Atkinson Hyperlegible Next (headings), Inter (body). Icons: Material Symbols Rounded.
 - **Grid:** 12 columns of 110px, 8px gutters, 16px margins at 1440; 4 and 8 columns on phone and tablet.
@@ -33,7 +33,7 @@ Jim's base design system: complete, unbranded defaults that every brand builds o
 - **Use a token wherever one exists.** Raw values are allowed only when no token covers them. On every build: swap exact matches for the token, flag near misses (15px where the scale has 16), and list repeated new values as token candidates.
 - **Naming.** Lowercase and hyphenated. Size scales run xs / s / m / l / xl, and `m` is always the default.
 - **Out of scope for now.** Dark mode. Do not invent it.
-- **Roles before primitives.** Where a role token exists (for example `radius-card`), use it rather than the primitive it points at.
+- **Only ever pick roles.** Use a role (for example `surface-card`, `radius-card`), never the primitive it points at. Primitives are the palette roles choose from. Where no role exists yet, use the primitive and list the gap as a role candidate.
 - **Components nest.** Small components (Atoms) build bigger ones (Molecules, then Blocks, then Pages). Each component README lists what it is built from. Changing a small component updates everything that contains it.
 
 ## Colour
@@ -102,7 +102,7 @@ How this system's tokens are written into a Figma file, and how to work with com
 - **Line heights are not variables.** Figma reads a bound number as px, so `leading-*` (1.2, 1.35, 1.5) would become 1.2px. Text styles set line height as a percentage instead (120%, 135%, 150%). CSS keeps `--leading-*`.
 - **Font families.** `font/face/display` and `font/face/body` hold the plain family name (`Inter`), not the CSS fallback stack. Their descriptions come from Typography: `font-display` "Headings and large moments.", `font-body` "Body and all UI text."
 - **Each variable** gets its token's usage note as its description and its CSS name as its code syntax (`var(--grey-900)`).
-- **Who sees what in pickers.** Primitives that roles cover are hidden from pickers: the neutral colours (greys, `black`, `white`) and the radius primitives (`radius-s` to `radius-full`). Roles can still alias them. Primary, secondary and status colours stay pickable, because components fill with them directly. Other primitives are scoped to where they belong: `space` to gap and padding, `border` to stroke width, font sizes to font size, families to font family, `weight` to font weight.
+- **Who sees what in pickers.** Only roles are pickable. Primitives that roles cover are hidden from pickers: the neutral colours (greys, `black`, `white`) and the radius primitives (`radius-s` to `radius-full`). Roles can still alias them. Until their roles exist, primary, secondary and status colours, spacing and type stay pickable; each is hidden once its roles land. Other primitives are scoped to where they belong: `space` to gap and padding, `border` to stroke width, font sizes to font size, families to font family, `weight` to font weight.
 - **Role scopes.** `text-*` to text fill and shape fill (icons are shapes and take the colour of the text around them); `surface-*` to frame and shape fill; `stroke-*` to stroke colour; radius roles to corner radius.
 - **Zero values.** A corner radius of 0 means no rounding, which is Figma's default: leave it unbound (there is no `radius-none`). Padding and gaps of 0 are layout choices, so bind them to `space-none`.
 - **Text styles.** One per type style, `<prefix>typescale/font-xs` to `<prefix>typescale/font-4xl`, in that order. Family, size and weight are bound to variables (`font/face/body`, `font/size/font-xs`, and the weight token the style's `fontWeightRef` names). Line height is a percentage, letter spacing is 0, and the description is the style's usage note. If a bound weight doesn't pick the right face in a font, leave that weight unbound and say so.

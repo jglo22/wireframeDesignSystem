@@ -6,6 +6,10 @@ Versions follow major.minor.patch:
 - **minor** (1.1.0): additions, such as a new token or component. Safe to take.
 - **major** (2.0.0): renames or removals. A brand may need changes before taking it.
 
+## 3.0.1 (2026-11-11)
+
+- Rule: only ever pick roles. Primitives are the palette roles choose from; designs, components and apps use roles. Where no role exists yet, use the primitive and list the gap. In Figma, each primitive group is hidden from pickers once its roles exist (type #2, spacing #3, fills #5 still to come).
+
 ## 3.0.0 (2026-11-11)
 
 A removal and new Figma structure. A brand may need changes before taking this version.
