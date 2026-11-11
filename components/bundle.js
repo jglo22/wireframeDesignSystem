@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"PersonalDS","components":[{"name":"Button"},{"name":"Headings"}]} */
+/* @ds-bundle: {"format":4,"namespace":"PersonalDS","components":[{"name":"Button"},{"name":"Headings"},{"name":"Card"}]} */
 (function () {
   var React = window.React;
   var h = React.createElement;
@@ -17,12 +17,21 @@
     return h("button", Object.assign({ type: "button" }, strip(props, ["variant", "className", "children"]), { className: className }), props.children);
   }
 
-  // Test component: only level 1 is styled so far.
+  // Level 1 is the page heading, level 2 is subheading-1.
+  var HEADING_STYLE = { 1: "page-heading", 2: "subheading-1" };
   function Headings(props) {
-    var level = props.level || 1;
-    var className = ["pds-h" + level, "font-4xl", props.className].filter(Boolean).join(" ");
+    var level = props.level === 2 ? 2 : 1;
+    var className = ["pds-h" + level, HEADING_STYLE[level], props.className].filter(Boolean).join(" ");
     return h("h" + level, Object.assign({}, strip(props, ["level", "className", "children"]), { className: className }), props.children);
   }
 
-  window.PersonalDS = Object.assign(window.PersonalDS || {}, { Button: Button, Headings: Headings });
+  // Card: a title (subheading-1) and body text on a card surface. surface: "default" or "mid".
+  function Card(props) {
+    var className = ["pds-card", props.surface === "mid" ? "pds-card-mid" : null, props.className].filter(Boolean).join(" ");
+    return h("div", Object.assign({}, strip(props, ["surface", "title", "className", "children"]), { className: className }),
+      props.title ? h("h2", { className: "pds-card-title subheading-1" }, props.title) : null,
+      props.children ? h("p", { className: "pds-card-body font-m" }, props.children) : null);
+  }
+
+  window.PersonalDS = Object.assign(window.PersonalDS || {}, { Button: Button, Headings: Headings, Card: Card });
 })();

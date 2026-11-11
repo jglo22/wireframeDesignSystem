@@ -52,6 +52,7 @@ function mergeList(baseList, brandList, label = "") {
     const m = { ...t, ...o };
     if ("value" in o && !("ref" in o)) delete m.ref; // an exact value replaces the role's pointer
     if ("fontWeight" in o && !("fontWeightRef" in o)) delete m.fontWeightRef; // same for a type style's weight
+    if ("fontSize" in o && !("fontSizeRef" in o)) delete m.fontSizeRef; // and its size
     if (label && t.usage && !t.usage.startsWith(label)) m.usage = label + t.usage;
     return m;
   });
@@ -170,7 +171,8 @@ themes.forEach((theme, i) => {
 });
 lines.push("", ":root {");
 for (const [key, fam] of Object.entries(out.type.families)) lines.push(`  --font-${key}: ${fam};`);
-for (const g of out.type.groups) for (const s of g.styles) lines.push(`  --${s.name}: ${s.fontSize};`);
+// a type style with "fontSizeRef" takes its size from that style's size variable
+for (const g of out.type.groups) for (const s of g.styles) lines.push(`  --${s.name}: ${s.fontSizeRef ? `var(--${s.fontSizeRef})` : s.fontSize};`);
 for (const [key, fam] of Object.entries(out)) {
   if (["color", "type", "shadow", "meta"].includes(key) || !fam?.tokens) continue;
   for (const tok of fam.tokens) lines.push(`  --${tok.name}: ${tok.ref ? `var(--${tok.ref})` : tok.value};`);

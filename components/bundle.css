@@ -54,11 +54,32 @@
   color: var(--primary-dark);
 }
 
-/* Heading, level 1 (test). Size from the font-4xl type style class. */
-.pds-h1 {
+/* Headings. Size, face, weight and line height come from the page-heading and subheading-1 type style classes. */
+.pds-h1,
+.pds-h2 {
   margin: 0;
-  font-family: var(--font-display);
-  font-weight: var(--weight-extrabold);
-  line-height: var(--leading-tight);
   color: var(--text-primary);
+}
+
+/* Card. Every value is a card-* component token. */
+.pds-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--card-gap);
+  padding: var(--card-padding);
+  background: var(--card-surface);
+  border: var(--border-s) solid var(--card-stroke);
+  border-radius: var(--card-radius);
+}
+.pds-card-mid {
+  background: var(--card-surface-mid);
+  border-color: transparent;
+}
+.pds-card-title {
+  margin: 0;
+  color: var(--text-primary);
+}
+.pds-card-body {
+  margin: 0;
+  color: var(--text-secondary);
 }

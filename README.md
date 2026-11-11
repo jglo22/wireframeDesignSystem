@@ -1,6 +1,6 @@
 # Wireframe Design System
 
-Jim's base design system: complete, unbranded defaults that every brand builds on. Tokens plus starter components: Button and Headings (h1).
+Jim's base design system: complete, unbranded defaults that every brand builds on. Tokens plus starter components: Button, Headings (page heading and subheading-1) and Card.
 
 ## How this system works
 
@@ -13,7 +13,7 @@ Jim's base design system: complete, unbranded defaults that every brand builds o
 
 *Status snapshot. Update it in the same commit as any change that moves things on. To-dos are [GitHub issues](https://github.com/jglo22/wireframeDesignSystem/issues), not here.*
 
-- **Release 3.0.0** (11 Nov 2026). `background` became the `surface-page` role, and Figma primitives are now a private collection grouped by family (`colour/greyscale/…`, `font/size/…`). Tokens (colour, type, spacing, radius, borders, shadows, layout, breakpoints), colour and radius roles, fonts, Button and Headings components, the flatten/export script, and Figma sync rules.
+- **Release 3.1.0** (11 Nov 2026). Three layers: primitives, global roles and component tokens (`card-*`, `page-heading`, `subheading-1`); new Card component; Headings has two levels. 3.0.0 (same day): `background` became the `surface-page` role, and Figma primitives are now a private collection grouped by family (`colour/greyscale/…`, `font/size/…`). Tokens (colour, type, spacing, radius, borders, shadows, layout, breakpoints), colour and radius roles, fonts, Button and Headings components, the flatten/export script, and Figma sync rules.
 - **Nearly steady.** It moved fast at the start (1.2 to 2.2 in three days, including the 2.0 colour renames). Two base gaps are open before it's settled: type roles (#2) and spacing roles (#3).
 - **Brands** (wellness, recipe) live in their apps' repos and take new releases when they choose.
 
@@ -22,7 +22,7 @@ Jim's base design system: complete, unbranded defaults that every brand builds o
 - **The repo is the master.** Artifacts and Figma are generated from it, one way, so nothing lives in two places.
 - **Base plus brands, not copies.** Complete defaults here; each brand holds only overrides and pins a version. `--detach` makes a standalone copy for handover.
 - **Two colour modes:** Wireframe (greys on white) and Branded. No dark mode.
-- **Only ever pick roles.** Primitives are the palette, kept for reference; roles say what something is for and point at a primitive. Designs, components and apps only ever use roles; brands override roles, not the scales. Done for colour (text, surfaces, strokes) and radius; still to come: type (#2), spacing (#3) and fills for primary, secondary and status colours (#5).
+- **Three layers, and only the top two are picked.** **Primitives** are the palette, kept for reference and hidden from pickers. **Global roles** cover what belongs to no single component: the page (`surface-page`) and text colours (`text-*`), plus the shared `stroke-*` and `surface-*` roles. **Component tokens** are grouped by component and point straight at primitives (`card-surface` → white, `card-radius` → radius-m); a change across components means editing each component's token (accepted trade-off, #7). Components are bound only to roles and component tokens. Done: Card and Headings; still to come: Button tokens, more heading levels, fills (#5).
 - **Design leads, but tidy drift.** Keep in-between values only where they're deliberate; snap the rest to the scale.
 - **Fonts:** Atkinson Hyperlegible Next (headings), Inter (body). Icons: Material Symbols Rounded.
 - **Grid:** 12 columns of 110px, 8px gutters, 16px margins at 1440; 4 and 8 columns on phone and tablet.
@@ -33,7 +33,7 @@ Jim's base design system: complete, unbranded defaults that every brand builds o
 - **Use a token wherever one exists.** Raw values are allowed only when no token covers them. On every build: swap exact matches for the token, flag near misses (15px where the scale has 16), and list repeated new values as token candidates.
 - **Naming.** Lowercase and hyphenated. Size scales run xs / s / m / l / xl, and `m` is always the default.
 - **Out of scope for now.** Dark mode. Do not invent it.
-- **Only ever pick roles.** Use a role (for example `surface-card`, `radius-card`), never the primitive it points at. Primitives are the palette roles choose from. Where no role exists yet, use the primitive and list the gap as a role candidate.
+- **Only ever pick roles and component tokens.** Inside a component, use its own tokens (`card-surface`, `card-radius`); elsewhere, use a global role (`surface-page`, `text-primary`). Never pick the primitive they point at. Where neither exists yet, use the primitive and list the gap as a token candidate.
 - **Components nest.** Small components (Atoms) build bigger ones (Molecules, then Blocks, then Pages). Each component README lists what it is built from. Changing a small component updates everything that contains it.
 
 ## Colour
@@ -46,6 +46,7 @@ Jim's base design system: complete, unbranded defaults that every brand builds o
 - Every primary, secondary and status colour is a group of four: `-light` (tint behind badges and tags), the base, `-dark` (hover, pressed, and text on the tint) and `-contrast` (text and icons on the base).
 - Status colours: `error`, `warning`, `info`, `success`. `warning-contrast` is `grey-900` because white fails on amber.
 - `surface-page` is the page background. It is a role, so a brand changes the page colour by overriding `surface-page`.
+- **Component colour tokens** are named after their component and point at a primitive: `card-surface` (white), `card-surface-mid` (grey-200) and `card-stroke` (grey-200). A brand restyles one component by overriding its tokens.
 - **Highlights** (`highlight-1` to `highlight-6`: yellow, pink, orange, lime, cyan, violet) are loud on purpose. They are for review only: mark up a design or screen to flag what needs changing. They never appear in a finished design or shipped app, carry no meaning, and are the same in every mode; brands don't override them.
 
 ## Typography
@@ -56,12 +57,14 @@ Jim's base design system: complete, unbranded defaults that every brand builds o
 - Allowed ratios: Minor Second 1.067, Major Second 1.125, Minor Third 1.2, Major Third 1.25, Perfect Fourth 1.333, Augmented Fourth 1.414, Perfect Fifth 1.5, Golden Ratio 1.618.
 - Weights: `weight-light` 300 for large display text only (never below `font-xl`), `weight-regular` 400 for body, `weight-medium` 500 for labels and buttons, `weight-semibold` 600 for headings, `weight-bold` 700 sparingly, `weight-extrabold` 800 for page titles in the display face only.
 - Line heights: `leading-normal` 1.5 for body (font-m and below), `leading-snug` 1.35 for font-l and font-xl, `leading-tight` 1.2 for font-2xl and up.
+- **Heading styles** are named by purpose and point at the scale: `page-heading` (font-4xl, display, extrabold) for the one page title per screen, and `subheading-1` (font-3xl, display, bold) for the h2. Each style's size points at a scale size (`fontSizeRef`), like its weight. Designs pick these, not `font-3xl`. Always "subheading", never "subtitle".
 
 ## Spacing, radius, borders, shadows
 
 - Spacing runs 2 / 4 / 8 / 16 / 32px as `space-xs` to `space-xl`; `space-m` (8) is the default. `space-none` (0) is for no gap or padding. Larger gaps between groups and page sections use 48 / 64 / 96px, `space-2xl` to `space-4xl`.
 - Radius comes in two layers. **Primitives** are the scale: `radius-s` 4, `radius-m` 8, `radius-l` 16, `radius-xl` 24, `radius-full` (round). **Roles** say what a corner is for and point at a primitive: `radius-input` (s), `radius-button` (m), `radius-card` (m), `radius-dialog` (l), `radius-chip` (full).
-- On the design system page, the **Corner radius** section shows the primitives and **Radius roles** shows the roles.
+- On the design system page, the **Corner radius** section shows the primitives and **Radius roles** shows the roles and the component radius tokens (`card-radius`).
+- **Component spacing tokens** sit with the spacing scale and point at it: `card-padding` (space-l, 16) and `card-gap` (space-m, 8).
 - Components and apps use roles, never primitives directly. A brand changes a corner by overriding the role: point it at another primitive, or, if no step fits and the size is deliberate, give it an exact value. If several brands need the same in-between size, add it to the primitives instead.
 - Borders: `border-s` 1px by default, `border-m` 2px for focus rings in `primary` and selected states, `border-l` 4px for accent bars.
 - Shadows use `grey-900` at low opacity: `shadow-s` for buttons and inputs, `shadow-m` for cards, `shadow-l` for modals. The colour is written into each shadow as `rgba()` rather than pointing at `grey-900`, because a token can't carry its own opacity; if `grey-900` changes, change the shadows with it.
@@ -97,7 +100,7 @@ How this system's tokens are written into a Figma file, and how to work with com
   - `colour/highlights/`: `highlight-1` to `highlight-6`.
   - `font/face/display` and `font/face/body`; `font/size/font-xs` to `font-4xl`; `font/weight/weight-light` to `weight-extrabold`.
   - `border/`, `radius/`, `space/`, `breakpoint/` and `layout/` (`layout/content-max`, `layout/gutter`).
-- **Role groups.** In `<prefix>roles`, each variable sits in a group named after the first word of its name: `text/text-primary`, `surface/surface-page`, `stroke/stroke-subtle`, `radius/radius-card`.
+- **Role groups.** In `<prefix>roles`, a global role sits in a group named after the first word of its name: `text/text-primary`, `surface/surface-page`, `stroke/stroke-subtle`, `radius/radius-card`. A component token sits in a group named after its component, without the component's name: `card-surface` → `card/surface`, `card-surface-mid` → `card/surface-mid`, `card-radius` → `card/radius`, `card-padding` → `card/padding`. Its scope follows its last word: `surface` to frame and shape fill, `stroke` to stroke colour, `radius` to corner radius, `padding` and `gap` to gap and padding.
 - **Units.** Figma takes px: convert rem at 1rem = 16px, rounded to one decimal place (spacing 0, 2, 4, 8, 16, 32, 48, 64, 96; font sizes 14.2, 16, 18 and so on). Breakpoints convert from em the same way (768, 1024, 1440). Radius and border widths are already px; weights are plain numbers.
 - **Line heights are not variables.** Figma reads a bound number as px, so `leading-*` (1.2, 1.35, 1.5) would become 1.2px. Text styles set line height as a percentage instead (120%, 135%, 150%). CSS keeps `--leading-*`.
 - **Font families.** `font/face/display` and `font/face/body` hold the plain family name (`Inter`), not the CSS fallback stack. Their descriptions come from Typography: `font-display` "Headings and large moments.", `font-body` "Body and all UI text."
@@ -105,6 +108,7 @@ How this system's tokens are written into a Figma file, and how to work with com
 - **Who sees what in pickers.** Only roles are pickable. Primitives that roles cover are hidden from pickers: the neutral colours (greys, `black`, `white`) and the radius primitives (`radius-s` to `radius-full`). Roles can still alias them. Until their roles exist, primary, secondary and status colours, spacing and type stay pickable; each is hidden once its roles land. Other primitives are scoped to where they belong: `space` to gap and padding, `border` to stroke width, font sizes to font size, families to font family, `weight` to font weight.
 - **Role scopes.** `text-*` to text fill and shape fill (icons are shapes and take the colour of the text around them); `surface-*` to frame and shape fill; `stroke-*` to stroke colour; radius roles to corner radius.
 - **Zero values.** A corner radius of 0 means no rounding, which is Figma's default: leave it unbound (there is no `radius-none`). Padding and gaps of 0 are layout choices, so bind them to `space-none`.
+- **Heading styles.** `page-heading` and `subheading-1` are text styles in `<prefix>type` (`<prefix>type/subheading-1`), with size bound to the variable their `fontSizeRef` names (`font/size/font-3xl`), family to `font/face/display` and weight to their `fontWeightRef`. Line height is a percentage. These are what designs pick.
 - **Text styles.** One per type style, `<prefix>typescale/font-xs` to `<prefix>typescale/font-4xl`, in that order. Family, size and weight are bound to variables (`font/face/body`, `font/size/font-xs`, and the weight token the style's `fontWeightRef` names). Line height is a percentage, letter spacing is 0, and the description is the style's usage note. If a bound weight doesn't pick the right face in a font, leave that weight unbound and say so.
 - **Effect styles.** One drop shadow per shadow token, `<prefix>shadows/shadow-s` to `<prefix>shadows/shadow-l`, with x, y and blur from the token, spread 0, and the token's colour and opacity as a literal (not bound: a colour variable carries its own opacity, so binding `grey-900` would make the shadow solid). The description is the usage note.
 - **Layout and breakpoints** are variables in `<prefix>primitives`, in px: `breakpoint/breakpoint-m` 768, `breakpoint-l` 1024 and `breakpoint-xl` 1440 (frame widths for tablet, laptop and desktop); `layout/content-max` 1408, `layout/gutter` 8, `layout/margin` 16, `layout/touch-target-min` 44 and `layout/grid-columns-s`, `-m`, `-l` (4, 8, 12). Skip `reading-max`: 70ch has no px value. Scopes: breakpoints, `content-max` and `touch-target-min` to width and height; `gutter` and `margin` to gap and padding; the grid column counts hidden from pickers (only grid styles use them).
