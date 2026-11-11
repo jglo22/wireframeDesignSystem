@@ -6,6 +6,19 @@ Versions follow major.minor.patch:
 - **minor** (1.1.0): additions, such as a new token or component. Safe to take.
 - **major** (2.0.0): renames or removals. A brand may need changes before taking it.
 
+## 3.0.0 (2026-11-11)
+
+A removal and new Figma structure. A brand may need changes before taking this version.
+
+- `background` is removed. The page colour is a role: `surface-page` now points straight at `white`. In CSS, use `--surface-page` where you used `--background`.
+- Component previews use `--surface-page`.
+- Figma: primitives move to a private collection, `_jg-primitives` (not exposed through a library; only `jg-roles` is), and are grouped by family, then set: `colour/greyscale/grey-900`, `colour/brand-primary/primary`, `colour/error/error`, `colour/highlights/highlight-1`, `font/face/body`, `font/size/font-xs`, `font/weight/weight-bold`, `space/space-m` and so on. There is no top-level `jg` group any more. Highlights move into primitives (no separate highlights collection). Role groups are unchanged (`text/`, `surface/`, `stroke/`, `radius/`). Token names and CSS names are unchanged.
+
+To take this version:
+
+- **Brands:** if brand.json overrides `background`, move that value to a `surface-page` override, and replace `var(--background)` with `var(--surface-page)` in the app.
+- **Figma:** resync. Rename and move the existing variables into the new groups rather than deleting and recreating them, so anything using them keeps its link. Re-point `surface-page` at `white`, then remove `background`.
+
 ## 2.2.1 (2026-10-30)
 
 - README, Figma section: a corner radius of 0 stays unbound (no `radius-none` token); padding and gaps of 0 bind to `space-none`.
