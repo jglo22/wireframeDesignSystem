@@ -6,6 +6,13 @@ Versions follow major.minor.patch:
 - **minor** (1.1.0): additions, such as a new token or component. Safe to take.
 - **major** (2.0.0): renames or removals. A brand may need changes before taking it.
 
+## 3.2.0 (2026-11-12)
+
+Adopts two changes made in the work Figma file. No token is renamed or removed, so brands can take it as is.
+
+- New radius primitive `radius-none` (0px). Square corners are a choice, so in Figma they bind to `radius/radius-none` rather than staying unbound (replaces the 2.2.1 rule). It stays pickable, scoped to corner radius.
+- Figma: the roles collection is now called `<prefix>implementation` (`jg-implementation`), not `<prefix>roles`. Rename it in place on the next sync so bindings survive. Token names and CSS are unchanged.
+
 ## 3.1.0 (2026-11-11)
 
 Additions only. Nothing is renamed or removed, so brands can take it as is.
