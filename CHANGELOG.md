@@ -6,6 +6,17 @@ Versions follow major.minor.patch:
 - **minor** (1.1.0): additions, such as a new token or component. Safe to take.
 - **major** (2.0.0): renames or removals. A brand may need changes before taking it.
 
+## 3.3.0 (2026-11-12)
+
+Adopted from the work Figma file. Nothing is renamed or removed; one size changes.
+
+- **Changed:** `subheading-1` is now font-4xl (was font-3xl), the same size as `page-heading`, told apart by weight (bold vs extrabold).
+- Card text tokens: text styles `card-heading` (follows `subheading-1`, bold), `card-body` (font-m) and `card-body-secondary` (font-xs), with colours `card-heading-colour` (grey-900), `card-body-colour` (grey-700) and `card-body-secondary-colour` (grey-600, Default card only). The Card component now uses them, so its title grows with `subheading-1`.
+- Button label: text style `button-label` (font-s, medium).
+- Letter spacing primitives: `tracking-tight` (-0.01em), `tracking-normal` (0), `tracking-wide` (0.02em). Not applied to any style yet.
+- Rule: a component's heading text may point at a heading style rather than a primitive, so it follows that heading (`card-heading` → `subheading-1`).
+- Figma: type-role variables `type/<style>/face|size|weight` for heading styles; component text variables flat in the component's group (`card/heading-size`); component text styles in `<prefix>type/<component>/<part>`; tracking as a percentage on text styles.
+
 ## 3.2.0 (2026-11-12)
 
 Adopts two changes made in the work Figma file. No token is renamed or removed, so brands can take it as is.

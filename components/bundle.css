@@ -77,9 +77,9 @@
 }
 .pds-card-title {
   margin: 0;
-  color: var(--text-primary);
+  color: var(--card-heading-colour);
 }
 .pds-card-body {
   margin: 0;
-  color: var(--text-secondary);
+  color: var(--card-body-colour);
 }

@@ -25,12 +25,12 @@
     return h("h" + level, Object.assign({}, strip(props, ["level", "className", "children"]), { className: className }), props.children);
   }
 
-  // Card: a title (subheading-1) and body text on a card surface. surface: "default" or "mid".
+  // Card: a title (card-heading) and body text on a card surface. surface: "default" or "mid".
   function Card(props) {
     var className = ["pds-card", props.surface === "mid" ? "pds-card-mid" : null, props.className].filter(Boolean).join(" ");
     return h("div", Object.assign({}, strip(props, ["surface", "title", "className", "children"]), { className: className }),
-      props.title ? h("h2", { className: "pds-card-title subheading-1" }, props.title) : null,
-      props.children ? h("p", { className: "pds-card-body font-m" }, props.children) : null);
+      props.title ? h("h2", { className: "pds-card-title card-heading" }, props.title) : null,
+      props.children ? h("p", { className: "pds-card-body card-body" }, props.children) : null);
   }
 
   window.PersonalDS = Object.assign(window.PersonalDS || {}, { Button: Button, Headings: Headings, Card: Card });
